@@ -22,6 +22,9 @@ case "$1" in
   run_reporter)
     mkdir -p data
     docker run --rm -v "$(pwd)/data:/data" reporter
+    if [ -f data/report.html ]; then
+      cp data/report.html data/index.html
+    fi
     ;;
   structure)
     find . -print | sort
@@ -36,7 +39,8 @@ case "$1" in
     docker run --rm -v "$(pwd)/data:/data" reporter ls -la /data
     ;;
   report_server)
-    docker run -d --rm --name report_server -p 8080:80 \
+    docker rm -f report_server 2>/dev/null || true
+    docker run -d --name report_server --rm -p 8080:80 \
       -v "$(pwd)/data:/usr/share/nginx/html:ro" \
       nginx:alpine
     ;;
