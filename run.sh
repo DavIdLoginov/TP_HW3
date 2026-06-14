@@ -30,7 +30,8 @@ case "$1" in
     find . -print | sort
     ;;
   clear_data)
-    rm -f data/*.csv data/*.html
+    mkdir -p data
+    find data -mindepth 1 -delete
     ;;
   inside_generator)
     docker run --rm -v "$(pwd)/data:/data" generator ls -la /data
@@ -40,6 +41,7 @@ case "$1" in
     ;;
   report_server)
     docker rm -f report_server 2>/dev/null || true
+    mkdir -p data
     docker run -d --name report_server --rm -p 8080:80 \
       -v "$(pwd)/data:/usr/share/nginx/html:ro" \
       nginx:alpine
