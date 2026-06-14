@@ -62,3 +62,22 @@ chmod +x run.sh
 ```bash
 docker stop report_server
 ```
+ИНСТРУКЦИЯ ПО ЗАПУСКУ
+
+# 1. Дать права на выполнение
+chmod +x run.sh
+
+# 2. Собрать и запустить генератор
+./run.sh build_generator
+./run.sh run_generator
+
+# 3. Собрать и запустить аналитика (создаст report.html и index.html)
+./run.sh build_reporter
+./run.sh run_reporter
+
+# 4. Запустить веб-сервер
+./run.sh report_server
+
+# 5. Открыть отчёт в браузере
+# - В Codespaces: вкладка Ports → порт 8080 → Open in Browser
+# - Локально: http://localhost:8080
